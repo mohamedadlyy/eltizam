@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '100%',borderRadius:8,borderWidth:1,borderColor:"transparent"
+    height: '100%',borderRadius:8,borderWidth:1,borderColor:"#eee"
   },
   content: {
     padding: 10,

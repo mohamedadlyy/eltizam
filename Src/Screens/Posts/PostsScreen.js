@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import Header from '../../../Shared/Components/Header';
 import Post from './Components/Post';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,10 @@ import { setSelectedPost } from './PostsSlice';
 import axios from '../../utils/axios';
 import Toast from 'react-native-toast-message';
 import EmptyView from '../../../Shared/Components/EmptyView';
+import AnimatedLoader from "react-native-animated-loader";
+import Text from '../../../Shared/Components/Text';
+import {  WhiteColor } from '../../utils/Constant';
+const LottieFile = '../../../Shared/images/Animation - 1724267205228.json'
 export default PostsScreen = React.memo(({ navigation }) => {
   const [allPosts, setAllPosts] = useState([]); // Store all posts
   const [posts, setPosts] = useState([]); // Store posts for the current page
@@ -67,25 +71,32 @@ export default PostsScreen = React.memo(({ navigation }) => {
   ), [handlePostPress]);
 
 
-  const renderFooter = useCallback(() => {
-    if (!loading) return null;
-    return <ActivityIndicator size="large" />;
-  }, [loading]);
-
 
 
   return (
+
     <View style={styles.container}>
       <Header title="Home" />
       {
         posts.length == 0 && !loading &&
         <EmptyView message={'Sorry no data found'} />
       }
+
+      {loading &&
+        <AnimatedLoader
+          visible={loading}
+          overlayColor="rgba(35, 136, 199,0.8)"
+          source={require(LottieFile)}
+          animationStyle={styles.lottie}
+          speed={2}>
+          <Text color={WhiteColor}>Loading...</Text>
+        </AnimatedLoader>
+    }
+
       <FlatList
         data={posts}
         renderItem={renderPost}
         keyExtractor={(item) => item.id.toString()}
-        ListFooterComponent={renderFooter}
         onEndReached={loadMorePosts} // Load more posts when user scrolls to the end
         onEndReachedThreshold={0.5}
       />
@@ -101,4 +112,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
 
+  lottie: {
+    width: 100,
+    height: 100,
+  },
 });

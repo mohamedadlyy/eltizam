@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         marginVertical: '1%',
         borderWidth: 1,
         borderRadius: 8,
-        borderColor: 'transparent',
+        borderColor: '#eee',
     },
     title: {
         color: BlackColor,
